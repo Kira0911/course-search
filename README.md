@@ -90,26 +90,26 @@ GET /api/search
 ### Example Request
 
 ```http
-GET http://localhost:8080/api/search?q=math&minAge=5&maxPrice=150&sort=priceAsc&page=0&size=5
+GET http://localhost:8080/api/search?q=math&minAge=8&maxPrice=150&sort=priceAsc&page=0&size=5
 ```
 
 ### Sample Response
 
 ```json
 {
-  "total": 2,
+  "total": 1,
   "courses": [
     {
       "id": "2",
       "title": "Math Magic",
-      "description": "Learn about math magic in a fun way!",
+      "description": "Learn about math magic in a fun and engaging way!",
       "category": "Math",
       "type": "CLUB",
       "gradeRange": "1st–3rd",
       "minAge": 8,
       "maxAge": 12,
-      "price": 120.0,
-      "nextSessionDate": "2025-07-20T10:00:00Z"
+      "price": 78.88,
+      "nextSessionDate": "2025-08-06T16:20:35.386Z"
     }
   ]
 }
