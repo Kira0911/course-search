@@ -36,15 +36,31 @@ public class CourseSearchService {
 
         boolean hasAnyFilter = false;
 
+        // auto complete logic
+        // If the query is null or empty, we won't apply any keyword search criteria
+        // This allows us to handle cases where the user might not input a search term
+        // or when we want to show all courses without filtering by keyword.
+        // If the query is not null or empty, we apply the keyword search criteria
+        // based on the length of the query.
+        // If the query length is 3 or more, we apply fuzzy, startsWith, and contains
+        // criteria.
+        // If the query length is less than 3, we only apply startsWith and contains
+        // criteria.
+        // This way, we can provide a more flexible search experience for the user.
         if (q != null && !q.isBlank()) {
+            Criteria keywordCriteria;
 
-            // This give autocomplete like functionality
-            // Matches titles starting with the query string or matches descriptions
-            // containing the query string
-            Criteria titlePrefix = new Criteria("title").startsWith(q);
-            Criteria descMatch = new Criteria("description").matches(q);
-            criteria = criteria.and(new Criteria().or(titlePrefix).or(descMatch));
+            if (q.length() >= 3) {
+                keywordCriteria = new Criteria().or(new Criteria("title").fuzzy(q))
+                        .or(new Criteria("title").startsWith(q))
+                        .or(new Criteria("title").contains(q))
+                        .or(new Criteria("description").contains(q));
+            } else {
+                keywordCriteria = new Criteria().or(new Criteria("title").startsWith(q))
+                        .or(new Criteria("description").contains(q));
+            }
 
+            criteria = criteria.and(keywordCriteria);
             hasAnyFilter = true;
         }
 
