@@ -37,6 +37,10 @@ public class CourseSearchService {
         boolean hasAnyFilter = false;
 
         if (q != null && !q.isBlank()) {
+
+            // This give autocomplete like functionality
+            // Matches titles starting with the query string or matches descriptions
+            // containing the query string
             Criteria titlePrefix = new Criteria("title").startsWith(q);
             Criteria descMatch = new Criteria("description").matches(q);
             criteria = criteria.and(new Criteria().or(titlePrefix).or(descMatch));
